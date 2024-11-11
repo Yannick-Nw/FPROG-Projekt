@@ -9,6 +9,9 @@ namespace WarAndPeace
      * große strings rechts
      * bei insert immer neuen tree returnen (funktional)
      * nach insert mit fix insert so rotaten usw. dass es wieder red black entspricht
+     * Rote node: Keine roten kindsknoten erlaubt, vorübergehend ungleichgewicht
+     * Schwarze node: Jeder pfad von root zu leaf hat gleiche anzahl schwarzer knoten (höhe)
+     * --> sind also die stabilen knoten, wurzel ist IMMER schwarz
      */
     public class RedBlackTreeNode
     {
