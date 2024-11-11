@@ -3,7 +3,13 @@
 namespace WarAndPeace
 {
     public enum Color { RED, BLACK };
-
+    /*
+     PLAN:
+     * kleinere strings links (also die weiter oben im alphabet, A..)
+     * große strings rechts
+     * bei insert immer neuen tree returnen (funktional)
+     * nach insert mit fix insert so rotaten usw. dass es wieder red black entspricht
+     */
     public class RedBlackTreeNode
     {
         public string Value { get; }
