@@ -4,18 +4,18 @@ namespace WarAndPeace
 {
     public enum Color { RED, BLACK };
 
-    public class RedBlackTreeNode<TValue>
+    public class RedBlackTreeNode
     {
-        public TValue Value { get; }
+        public string Value { get; }
         public Color Color { get; }
-        public RedBlackTreeNode<TValue> Left { get; }
-        public RedBlackTreeNode<TValue> Right { get; }
-        public RedBlackTreeNode<TValue> Parent { get; }
+        public RedBlackTreeNode Left { get; }
+        public RedBlackTreeNode Right { get; }
+        public RedBlackTreeNode Parent { get; }
 
-        private RedBlackTreeNode(TValue value, Color color,
-                                 RedBlackTreeNode<TValue> left = null,
-                                 RedBlackTreeNode<TValue> right = null,
-                                 RedBlackTreeNode<TValue> parent = null)
+        private RedBlackTreeNode(string value, Color color,
+                                 RedBlackTreeNode left = null,
+                                 RedBlackTreeNode right = null,
+                                 RedBlackTreeNode parent = null)
         {
             Value = value;
             Color = color;
@@ -24,23 +24,23 @@ namespace WarAndPeace
             Parent = parent;
         }
 
-        public static RedBlackTreeNode<TValue> CreateRootNode(TValue value, Color color) =>
-            new RedBlackTreeNode<TValue>(value, color);
+        public static RedBlackTreeNode CreateRootNode(string value, Color color) =>
+            new RedBlackTreeNode(value, color);
 
         //Add new node with left child
-        public RedBlackTreeNode<TValue> AddLeftChild(TValue value, Color color) =>
-            new RedBlackTreeNode<TValue>(value, color, parent: this);
+        public RedBlackTreeNode AddLeftChild(string value, Color color) =>
+            new RedBlackTreeNode(value, color, parent: this);
 
         //Add new node with right child
-        public RedBlackTreeNode<TValue> AddRightChild(TValue value, Color color) =>
-            new RedBlackTreeNode<TValue>(value, color, parent: this);
+        public RedBlackTreeNode AddRightChild(string value, Color color) =>
+            new RedBlackTreeNode(value, color, parent: this);
 
         //Change existing left node
-        public RedBlackTreeNode<TValue> WithLeft(RedBlackTreeNode<TValue> newLeft) =>
-            new RedBlackTreeNode<TValue>(Value, Color, newLeft, Right, Parent);
+        public RedBlackTreeNode WithLeft(RedBlackTreeNode newLeft) =>
+            new RedBlackTreeNode(Value, Color, newLeft, Right, Parent);
 
         //Change existing right node
-        public RedBlackTreeNode<TValue> WithRight(RedBlackTreeNode<TValue> newRight) =>
-            new RedBlackTreeNode<TValue>(Value, Color, Left, newRight, Parent);
+        public RedBlackTreeNode WithRight(RedBlackTreeNode newRight) =>
+            new RedBlackTreeNode(Value, Color, Left, newRight, Parent);
     }
 }
