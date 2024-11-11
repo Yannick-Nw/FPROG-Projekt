@@ -1,4 +1,6 @@
-﻿namespace WarAndPeace
+﻿
+
+namespace WarAndPeace
 {
     internal class Program
     {
