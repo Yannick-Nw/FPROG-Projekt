@@ -78,7 +78,7 @@ namespace WarAndPeace
                 root = root.ChangeColor(Color.BLACK); //Swap colors of grandfather and parent (makes root of subtree black, basically)
                 var rightRedNode = root.Right.ChangeColor(Color.RED); //grandfather is now right child of parent node, make it red
                 root = root.AddRightChild(rightRedNode);
-                _llFlag = false;
+                flags = new RotationFlags(false, flags.RrFlag, flags.LrFlag, flags.RlFlag);
             }
             else if (flags.RrFlag)
             {   // red right and red right child node
@@ -86,7 +86,7 @@ namespace WarAndPeace
                 root = root.ChangeColor(Color.BLACK); //Swap colors of grandfather and parent
                 var leftRedNode = root.Left.ChangeColor(Color.RED); //Grandfather now left child of parent node, make it red
                 root = root.AddLeftChild(leftRedNode);
-                _rrFlag = false;
+                flags = new RotationFlags(flags.LlFlag, false, flags.LrFlag, flags.RlFlag);
             }
             else if (flags.RlFlag)
             {  //Red right and red left child node: rotate twice, first right then left
@@ -97,7 +97,7 @@ namespace WarAndPeace
                 root = root.ChangeColor(Color.BLACK); //Make new root of this subtree black
                 var leftRedNode = root.Left.ChangeColor(Color.RED); //Make old grandfather/root of subtree red
                 root = root.AddLeftChild(leftRedNode); //change black node to red node, immutable so new node is created
-                _rlFlag = false;
+                flags = new RotationFlags(flags.LlFlag, flags.RrFlag, flags.LrFlag, false);
             }
             else if (flags.LrFlag)
             {  //Red left and red right child node: rotate twice, first left then right
@@ -108,7 +108,7 @@ namespace WarAndPeace
                 root = root.ChangeColor(Color.BLACK); //Make new root of subtree black
                 var rightRedNode = root.Right.ChangeColor(Color.RED); //Make old grandfather/now right child red
                 root = root.AddRightChild(rightRedNode); //change black node to red node, immutable so new node is created
-                _lrFlag = false;
+                flags = new RotationFlags(flags.LlFlag, flags.RrFlag, false, flags.RlFlag);
             }
 
             if (redConflict)
@@ -121,31 +121,26 @@ namespace WarAndPeace
             return (root, flags);
         }
 
-        //Flags for left, right rotation
-        private bool _llFlag;
-        private bool _rrFlag;
-        private bool _lrFlag;
-        private bool _rlFlag;
-
+        //Rotate to the left, in RR case
         private RedBlackTreeNode RotateLeft(RedBlackTreeNode root)
         {
-
+            RedBlackTreeNode x = root.Right;
+            RedBlackTreeNode y = x.Left;
+            x = x.AddLeftChild(root);
+            root = root.AddRightChild(y);
+            root = root.AddParent(x);
+            if(y != null)
+            {
+                y = y.AddParent(root);
+            }
+            return x;
         }
 
+        //Rotate to the right, in LL case
         private RedBlackTreeNode RotateRight(RedBlackTreeNode root)
         {
 
         }
 
-        private RedBlackTree CreateNewTreeWithFlags(RedBlackTreeNode root)
-        {
-            var newTree = new RedBlackTree(root);
-            newTree._llFlag = _llFlag; //is set only once, not mutable ! (?)
-            newTree._rrFlag = _rrFlag;
-            newTree._lrFlag = _lrFlag;
-            newTree._rlFlag = _rlFlag;
-
-            return newTree;
-        }
     }
 }
