@@ -33,23 +33,19 @@ namespace WarAndPeace
             Parent = parent;
         }
 
-        public static RedBlackTreeNode CreateRootNode(string value, Color color) =>
+        public static RedBlackTreeNode CreateNode(string value, Color color) =>
             new RedBlackTreeNode(value, color);
 
-        //Add new node with left child
-        public RedBlackTreeNode AddLeftChild(string value, Color color) =>
-            new RedBlackTreeNode(value, color, parent: this);
+        //Node but add left child
+        public RedBlackTreeNode AddLeftChild(RedBlackTreeNode leftNode) =>
+            new RedBlackTreeNode(Value, Color, leftNode, Right, Parent);
 
-        //Add new node with right child
-        public RedBlackTreeNode AddRightChild(string value, Color color) =>
-            new RedBlackTreeNode(value, color, parent: this);
+        //Node but add right child
+        public RedBlackTreeNode AddRightChild(RedBlackTreeNode rightNode) =>
+            new RedBlackTreeNode(Value, Color, Left, rightNode, Parent);
 
-        //Change existing left node
-        public RedBlackTreeNode WithLeft(RedBlackTreeNode newLeft) =>
-            new RedBlackTreeNode(Value, Color, newLeft, Right, Parent);
-
-        //Change existing right node
-        public RedBlackTreeNode WithRight(RedBlackTreeNode newRight) =>
-            new RedBlackTreeNode(Value, Color, Left, newRight, Parent);
+        //Node but change color (for rotation)
+        public RedBlackTreeNode ChangeColor(Color newColor) =>
+            new RedBlackTreeNode(Value, newColor, Left, Right, Parent);
     }
 }
