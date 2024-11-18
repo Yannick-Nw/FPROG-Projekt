@@ -14,7 +14,8 @@ namespace WarAndPeace
      * --> sind also die stabilen knoten, wurzel ist IMMER schwarz
      */
     public class RedBlackTreeNode
-    {
+    { 
+        //No setter: Once created, node is immutable
         public string Value { get; }
         public Color Color { get; }
         public RedBlackTreeNode Left { get; }
@@ -44,8 +45,23 @@ namespace WarAndPeace
         public RedBlackTreeNode AddRightChild(RedBlackTreeNode rightNode) =>
             new RedBlackTreeNode(Value, Color, Left, rightNode, Parent);
 
+        //Node but add a parent
+        public RedBlackTreeNode AddParent(RedBlackTreeNode parent) =>
+            new RedBlackTreeNode(Value, Color, Left, Right, parent);
+
         //Node but change color (for rotation)
         public RedBlackTreeNode ChangeColor(Color newColor) =>
             new RedBlackTreeNode(Value, newColor, Left, Right, Parent);
+
+        //Get uncle to test if rotation or recoloring is needed
+        public RedBlackTreeNode? GetUncle()
+        {
+            if (Parent?.Parent == null)
+                return null;
+
+            return Parent.Parent.Left != Parent
+               ? Parent.Parent.Left
+               : Parent.Parent.Right;
+        }
     }
 }
