@@ -59,5 +59,5 @@ namespace WarAndPeace
     //      if value right of oldTreeRAGH
     //          CheckForAnySpinnzShit when u insert to the right, if there is some shit create the new things accordingly
     //          return new Node(oldTreeRAGH.LEFTChild, InsertNode(value, oldTreeRAGH.RIGHTchild), oldTreeRAGH.value)
-
+      
 }
