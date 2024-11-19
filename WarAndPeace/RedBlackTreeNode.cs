@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace WarAndPeace
 {
@@ -20,18 +21,15 @@ namespace WarAndPeace
         public Color Color { get; }
         public RedBlackTreeNode Left { get; }
         public RedBlackTreeNode Right { get; }
-        public RedBlackTreeNode Parent { get; }
 
-        private RedBlackTreeNode(string value, Color color,
+        public RedBlackTreeNode(string value, Color color,
                                  RedBlackTreeNode left = null,
-                                 RedBlackTreeNode right = null,
-                                 RedBlackTreeNode parent = null)
+                                 RedBlackTreeNode right = null)
         {
             Value = value;
             Color = color;
             Left = left;
             Right = right;
-            Parent = parent;
         }
 
         public static RedBlackTreeNode CreateNode(string value, Color color) =>
@@ -39,29 +37,27 @@ namespace WarAndPeace
 
         //Node but add left child
         public RedBlackTreeNode AddLeftChild(RedBlackTreeNode leftNode) =>
-            new RedBlackTreeNode(Value, Color, leftNode, Right, Parent);
+            new RedBlackTreeNode(Value, Color, leftNode, Right);
 
         //Node but add right child
         public RedBlackTreeNode AddRightChild(RedBlackTreeNode rightNode) =>
-            new RedBlackTreeNode(Value, Color, Left, rightNode, Parent);
-
-        //Node but add a parent
-        public RedBlackTreeNode AddParent(RedBlackTreeNode parent) =>
-            new RedBlackTreeNode(Value, Color, Left, Right, parent);
+            new RedBlackTreeNode(Value, Color, Left, rightNode);
 
         //Node but change color (for rotation)
         public RedBlackTreeNode ChangeColor(Color newColor) =>
-            new RedBlackTreeNode(Value, newColor, Left, Right, Parent);
-
-        //Get uncle to test if rotation or recoloring is needed
-        public RedBlackTreeNode? GetUncle()
-        {
-            if (Parent?.Parent == null)
-                return null;
-
-            return Parent.Parent.Left != Parent
-               ? Parent.Parent.Left
-               : Parent.Parent.Right;
-        }
+            new RedBlackTreeNode(Value, newColor, Left, Right);
     }
+
+
+    // Node InsertNode(value, oldTreeRootAufGleicherHöhe)
+    // if oldTreeRAGH is null
+    //          new Node(null, null, value)
+
+    //      if value left of oldTreeRAGH
+    //          CheckForAnySpinnzShit when u insert to the left, if ther e is some shit create the new things accordingly
+    //          return new Node(InsertNode(value, oldTreeRAGH.LEFTCHILD), oldTreeRAGH.RIGHTCHILD), oldTreeRAGH.value)
+    //      if value right of oldTreeRAGH
+    //          CheckForAnySpinnzShit when u insert to the right, if there is some shit create the new things accordingly
+    //          return new Node(oldTreeRAGH.LEFTChild, InsertNode(value, oldTreeRAGH.RIGHTchild), oldTreeRAGH.value)
+
 }
