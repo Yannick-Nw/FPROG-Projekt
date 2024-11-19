@@ -21,7 +21,7 @@ namespace WarAndPeace
         {
             Root = root;
         }
-
+          
         //Public insert method
         public RedBlackTree Insert(string value)
         {
@@ -47,8 +47,8 @@ namespace WarAndPeace
             else if (value.CompareTo(root.Value) < 0)
             {
                 var (leftNode, newFlags) = InsertHelper(root.Left, value, flags);
-                leftNode = leftNode.AddParent(root);
                 root = root.AddLeftChild(leftNode);
+                leftNode = leftNode.AddParent(root);
 
                 if (root != this.Root && root.Color == Color.RED && root.Left.Color == Color.RED)
                 {
@@ -59,8 +59,8 @@ namespace WarAndPeace
             else
             {
                 var (rightNode, newFlags) = InsertHelper(root.Right, value, flags);
-                rightNode = rightNode.AddParent(root);
                 root = root.AddRightChild(rightNode);
+                rightNode = rightNode.AddParent(root);
 
                 if (root != this.Root && root.Color == Color.RED && root.Right.Color == Color.RED)
                 {
@@ -111,10 +111,60 @@ namespace WarAndPeace
                 flags = new RotationFlags(flags.LlFlag, flags.RrFlag, false, flags.RlFlag);
             }
 
-            if (redConflict)
+            if (redConflict) //to check which nodes cause conflict and rotate or recolor
             {
-                // rr und ll vertauscht! gehören zum jeweils anderen if statement
-
+                if(root.Parent.Right == root) //check if current root is right (or left) child of its parent node
+                {
+                    if(root.Parent.Left == null || root.Parent.Left.Color == Color.BLACK) //sibling node null or black ("Uncle"): set rotation flags (rr and rl)
+                    {
+                        if (root.Right != null && root.Right.Color == Color.RED) //red node and red child node
+                        {
+                            flags = new RotationFlags(flags.LlFlag, true, flags.LrFlag, flags.RlFlag); //set rr flag: right and right node red
+                        }
+                        else if (root.Left != null && root.Left.Color == Color.RED)
+                        {
+                            flags = new RotationFlags(flags.LlFlag, flags.RrFlag, flags.LrFlag, true); //set rl flag: right and left node red
+                        }
+                    } 
+                    else //sibling "Uncle" node red: make "parent" node and "uncle" node both black
+                    {
+                        var blackUncle = root.Parent.Left.ChangeColor(Color.BLACK);
+                        var newParent = root.Parent.AddLeftChild(blackUncle);
+                        root = root.AddParent(newParent);
+                        root = root.ChangeColor(Color.BLACK);
+                        if(root.Parent != this.Root) //only make grandfather red if its not root of whole tree
+                        {
+                            var redParent = root.Parent.ChangeColor(Color.RED);
+                            root = root.AddParent(redParent);
+                        }
+                    }
+                }  
+                else //current root is a left child node
+                {
+                    if (root.Parent.Right == null || root.Parent.Right.Color == Color.BLACK) //sibling node null or black ("Uncle"): set rotation flags (ll and lr)
+                    {
+                        if(root.Left != null && root.Left.Color == Color.RED)
+                        {
+                            flags = new RotationFlags(true, flags.RrFlag, flags.LrFlag, flags.RlFlag); //set ll flag: left and left node red
+                        }
+                        else if (root.Right != null && root.Right.Color == Color.RED)
+                        {
+                            flags = new RotationFlags(flags.LlFlag, flags.RrFlag, true, flags.RlFlag); //set lr flag: left and right node red
+                        }
+                    }
+                    else //sibling "Uncle" node red: make "parent" node and "uncle" node both black
+                    {
+                        var blackUncle = root.Parent.Right.ChangeColor(Color.BLACK);
+                        var newParent = root.Parent.AddRightChild(blackUncle);
+                        root = root.AddParent(newParent);
+                        root = root.ChangeColor(Color.BLACK);
+                        if (root.Parent != this.Root) //only make grandfather red if its not root of whole tree
+                        {
+                            var redParent = root.Parent.ChangeColor(Color.RED);
+                            root = root.AddParent(redParent);
+                        }
+                    }
+                }
                 redConflict = false;
             }
 
