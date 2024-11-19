@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WarAndPeace
 {
-    //flags for deciding how to rotate, outside of tree class --> ensures immutability
+    //flags for deciding how to rotate, outside of tree class --> ensures immutability of tree
     public record RotationFlags(bool LlFlag, bool RrFlag, bool LrFlag, bool RlFlag);
     public class RedBlackTree
     {
@@ -39,7 +39,7 @@ namespace WarAndPeace
         private (RedBlackTreeNode, RotationFlags) InsertHelper(RedBlackTreeNode root, string value, RotationFlags flags)
         {
             bool redConflict = false;
-
+            //recursion to find where to insert node v v v 
             if (root == null)
             {
                 return (RedBlackTreeNode.CreateNode(value, Color.RED), flags);
@@ -52,7 +52,7 @@ namespace WarAndPeace
 
                 if (root != this.Root && root.Color == Color.RED && root.Left.Color == Color.RED)
                 {
-                    redConflict = true;
+                    redConflict = true; // two adjacent red nodes: conflict that must be solved (when returning from recursion depth)
                 }
                 flags = newFlags;
             }
@@ -64,7 +64,7 @@ namespace WarAndPeace
 
                 if (root != this.Root && root.Color == Color.RED && root.Right.Color == Color.RED)
                 {
-                    redConflict = true;
+                    redConflict = true; // two adjacent red nodes: conflict that must be solved
                 }
                 flags = newFlags;
             }
@@ -139,7 +139,16 @@ namespace WarAndPeace
         //Rotate to the right, in LL case
         private RedBlackTreeNode RotateRight(RedBlackTreeNode root)
         {
-
+            RedBlackTreeNode x = root.Left;
+            RedBlackTreeNode y = x.Right;
+            x = x.AddRightChild(root);
+            root = root.AddLeftChild(y);
+            root = root.AddParent(x);
+            if(y != null)
+            {
+                y = y.AddParent(root);
+            }
+            return x;
         }
 
     }
