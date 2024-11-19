@@ -13,7 +13,7 @@ namespace WarAndPeace
             {
                 redBlackTree = redBlackTree.Insert(word);
             }
-            redBlackTree.PrintTree();
+            Console.WriteLine(redBlackTree.CountBlack());
         }
 
         public static string ReadWholeFile(string path) => File.ReadAllText(path);

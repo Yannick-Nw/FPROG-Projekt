@@ -210,7 +210,7 @@ namespace WarAndPeace
         }
 
         //Second rule: Amount of black nodes from each (empty) leaf to root should be the same
-        private int CountBlack()
+        public int CountBlack()
         {
             if (IsEmpty())
             {
