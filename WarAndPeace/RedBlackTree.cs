@@ -16,28 +16,38 @@ namespace WarAndPeace
             Root = null;
         }
 
-        /*public void PrintTree()
+        public void PrintTree()
         {
-            PrintTreeHelper(Root, 0);
+            if (Root != null)
+            {
+                PrintTreeHelper(Root);
+            }
+            else
+            {
+                Console.WriteLine("The tree is empty!!");
+            }
         }
 
-        private void PrintTreeHelper(RedBlackTreeNode root, int space)
+        // Helper method to print tree structure
+        private void PrintTreeHelper(RedBlackTreeNode node)
         {
-            if(root != null)
-            {
-                space += 10;
-                PrintTreeHelper(root.Right, space);
-                Console.WriteLine();
-                for (int i = 10; i < space; i++)
-                {
-                    Console.Write(" ");
-                }
-                Console.WriteLine(root.Value);
-                PrintTreeHelper(root.Left, space);
-            }
-        }*/
+            if (node == null) return;
 
-        private RedBlackTree(RedBlackTreeNode root)
+            Console.WriteLine($"{node.Value} ({node.Color})");
+
+            if (node.Left != null)
+            {
+                Console.WriteLine($"{node.Value} -> {node.Left.Value} (left child)");
+                PrintTreeHelper(node.Left);
+            }
+            if (node.Right != null)
+            {
+                Console.WriteLine($"{node.Value} -> {node.Right.Value} (right child)");
+                PrintTreeHelper(node.Right);
+            }
+        }
+
+    private RedBlackTree(RedBlackTreeNode root)
         {
             Root = root;
         }

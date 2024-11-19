@@ -7,13 +7,14 @@ namespace WarAndPeace
         static void Main(string[] args)
         {
             string text = ReadWholeFile("war_and_peace.txt"); //Read text of file
-            string[] words = {"a", "d", "f", "c", "e", "g", "h", "b", "i" };
+            string[] words = {"a", "d", "f", "c"};
             RedBlackTree redBlackTree = new RedBlackTree();
             foreach (string word in words)
             {
                 redBlackTree = redBlackTree.Insert(word);
             }
             Console.WriteLine(redBlackTree.CountBlack());
+            redBlackTree.PrintTree();
         }
 
         public static string ReadWholeFile(string path) => File.ReadAllText(path);
