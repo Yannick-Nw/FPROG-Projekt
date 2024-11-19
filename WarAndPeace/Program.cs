@@ -7,7 +7,11 @@ namespace WarAndPeace
         static void Main(string[] args)
         {
             string text = ReadWholeFile("war_and_peace.txt"); //Read text of file
-            string[] words = {"alphabet", "buddy", "cousin", "dorm", "elf", "fog", "girl", "high", "in" };
+            string[] words = text
+            .Split(new[] { ' ', '\n', '\r', '\t' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(word => new string(word.Where(char.IsLetterOrDigit).ToArray()))
+            .Where(word => !string.IsNullOrEmpty(word))
+            .ToArray();
             RedBlackTree redBlackTree = new RedBlackTree();
             foreach (string word in words)
             {

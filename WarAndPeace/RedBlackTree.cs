@@ -47,8 +47,7 @@ namespace WarAndPeace
             else if (value.CompareTo(root.Value) < 0)
             {
                 var (leftNode, newFlags) = InsertHelper(root.Left, value, flags);
-                root = root.AddLeftChild(leftNode);
-                leftNode = leftNode.AddParent(root);
+                root = root.AddLeftChild(leftNode.AddParent(root));
 
                 if (root != this.Root && root.Color == Color.RED && root.Left.Color == Color.RED)
                 {
@@ -59,8 +58,7 @@ namespace WarAndPeace
             else
             {
                 var (rightNode, newFlags) = InsertHelper(root.Right, value, flags);
-                root = root.AddRightChild(rightNode);
-                rightNode = rightNode.AddParent(root);
+                root = root.AddRightChild(rightNode.AddParent(root));
 
                 if (root != this.Root && root.Color == Color.RED && root.Right.Color == Color.RED)
                 {
@@ -90,24 +88,24 @@ namespace WarAndPeace
             }
             else if (flags.RlFlag)
             {  //Red right and red left child node: rotate twice, first right then left
-                var rightNode = RotateRight(root.Right); //root.Right is parent node in this case (right child of grandfather)
-                rightNode = rightNode.AddParent(root); 
+                var rightNode = RotateRight(root.Right); //root.Right is parent node in this case (right child of grandfather) 
                 root = root.AddRightChild(rightNode); //Connect new right Node to grandparent
                 root = RotateLeft(root); //Now rotate grandfather to the left
                 root = root.ChangeColor(Color.BLACK); //Make new root of this subtree black
                 var leftRedNode = root.Left.ChangeColor(Color.RED); //Make old grandfather/root of subtree red
                 root = root.AddLeftChild(leftRedNode); //change black node to red node, immutable so new node is created
+                rightNode = rightNode.AddParent(root);
                 flags = new RotationFlags(flags.LlFlag, flags.RrFlag, flags.LrFlag, false);
             }
             else if (flags.LrFlag)
             {  //Red left and red right child node: rotate twice, first left then right
                 var leftNode = RotateLeft(root.Left); //root.Left is parent node in this case, left child of grandfather
-                leftNode = leftNode.AddParent(root);
                 root = root.AddLeftChild(leftNode); //connect new left node to grandfather/root of subtree
                 root = RotateRight(root); //Rotate grandfather to the right
                 root = root.ChangeColor(Color.BLACK); //Make new root of subtree black
                 var rightRedNode = root.Right.ChangeColor(Color.RED); //Make old grandfather/now right child red
                 root = root.AddRightChild(rightRedNode); //change black node to red node, immutable so new node is created
+                leftNode = leftNode.AddParent(root);
                 flags = new RotationFlags(flags.LlFlag, flags.RrFlag, false, flags.RlFlag);
             }
 
