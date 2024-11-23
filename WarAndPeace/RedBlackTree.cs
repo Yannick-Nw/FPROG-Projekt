@@ -47,6 +47,30 @@ namespace WarAndPeace
             }
         }
 
+        /*
+        public List<string> InOrderTraversal()
+        {
+            var result = new List<string>();
+            InOrderTraversalHelper(Root, result);
+            return result;
+        }
+
+        private void InOrderTraversalHelper(RedBlackTreeNode node, List<string> result)
+        {
+            if (node == null) return;
+
+            // Traverse left subtree
+            InOrderTraversalHelper(node.Left, result);
+
+            // Visit root
+            result.Add(node.Value);
+
+            // Traverse right subtree
+            InOrderTraversalHelper(node.Right, result);
+        }
+        */
+
+
     private RedBlackTree(RedBlackTreeNode root)
         {
             Root = root;
@@ -55,8 +79,8 @@ namespace WarAndPeace
         private RedBlackTree(Color color, RedBlackTree leftSubtree, string value, RedBlackTree rightSubtree)
         {
             Root = new RedBlackTreeNode(value, color, leftSubtree.Root, rightSubtree.Root);
-            Debug.Assert(leftSubtree.IsEmpty() || leftSubtree.Root.Value.CompareTo(value) < 0);
-            Debug.Assert(rightSubtree.IsEmpty() || rightSubtree.Root.Value.CompareTo(value) > 0);
+            Debug.Assert(leftSubtree.RootIsEmpty() || leftSubtree.Root.Value.CompareTo(value) < 0);
+            Debug.Assert(rightSubtree.RootIsEmpty() || rightSubtree.Root.Value.CompareTo(value) > 0);
         }
           
         //Public insert method
@@ -82,7 +106,7 @@ namespace WarAndPeace
         private RedBlackTree InsertHelper(string value)
         {
             AssertRedRule();
-            if (IsEmpty())
+            if (RootIsEmpty())
             {
                 //Create new subtree/makes new node always red
                 return new RedBlackTree(Color.RED, new RedBlackTree(), value, new RedBlackTree());
@@ -125,14 +149,14 @@ namespace WarAndPeace
         //If parent is black, balance to avoid violation, no rotation needed because of reconstruction of tree with Balance
         public static RedBlackTree Balance(RedBlackTree leftSubtree, string value, RedBlackTree rightSubtree)
         {
-            if (leftSubtree.DoubledLeft()) //Left red parent, left red child
+            if (leftSubtree.DoubleRedLeft()) //Left red parent, left red child
             {
                 //Equivalent to a right rotation, restructure subtree
                 return new RedBlackTree(Color.RED, leftSubtree.Left().Paint(Color.BLACK), leftSubtree.Root.Value, 
                     new RedBlackTree(Color.BLACK, leftSubtree.Right(), value, rightSubtree));
                 //Left node becomes new root, right subtree has old root as parent, basically like right rotation! and repaint new left and right subtrees black
             }
-            else if (leftSubtree.DoubledRight()) //Left red parent, right red child
+            else if (leftSubtree.DoubleRedRight()) //Left red parent, right red child
             {
                 //Equivalent to left, then right rotation
                 return new RedBlackTree(Color.RED, new RedBlackTree(Color.BLACK, leftSubtree.Left(),
@@ -140,7 +164,7 @@ namespace WarAndPeace
                     new RedBlackTree(Color.BLACK, leftSubtree.Right().Right(), value, rightSubtree));
                 //Right node of left subtree becomes new root, left subtree goes to left of this root, old parent to the right of this root 
             }
-            else if (rightSubtree.DoubledLeft()) //Right red parent, left red child
+            else if (rightSubtree.DoubleRedLeft()) //Right red parent, left red child
             {
                 //Equivalent to a right, then left rotation
                 return new RedBlackTree(Color.RED, new RedBlackTree(Color.BLACK, leftSubtree, value, rightSubtree.Left().Left()),
@@ -148,7 +172,7 @@ namespace WarAndPeace
                     new RedBlackTree(Color.BLACK, rightSubtree.Left().Right(), rightSubtree.Root.Value, rightSubtree.Right()));
                 //Right subtree.left becomes new root, old parent becomes left subtree, right Subtree stays right of new root
             }
-            else if (rightSubtree.DoubledRight()) //Right red parent, right red child
+            else if (rightSubtree.DoubleRedRight()) //Right red parent, right red child
             {
                 //Equivalent to a left rotation, subtree is restructured
                 return new RedBlackTree(Color.RED, new RedBlackTree(Color.BLACK, leftSubtree, value, rightSubtree.Left()), 
@@ -162,27 +186,27 @@ namespace WarAndPeace
         }
 
         //Detect violation: Red node with red child node on left
-        private bool DoubledLeft()
+        private bool DoubleRedLeft()
         {
-            return !IsEmpty()
+            return !RootIsEmpty()
                 && Root.Color == Color.RED
-                && !Left().IsEmpty()
+                && !Left().RootIsEmpty()
                 && Left().Root.Color == Color.RED;
         }
 
         //Detect violation: Red node with red child node on right
-        private bool DoubledRight()
+        private bool DoubleRedRight()
         {
-            return !IsEmpty()
+            return !RootIsEmpty()
                 && Root.Color == Color.RED
-                && !Right().IsEmpty()
+                && !Right().RootIsEmpty()
                 && Right().Root.Color == Color.RED;
         }
 
         //Return (sub)tree where root's color is changed to new color
         private RedBlackTree Paint(Color newColor)
         {
-            Debug.Assert(!IsEmpty());
+            Debug.Assert(!RootIsEmpty());
             return new RedBlackTree(newColor, Left(), Root.Value, Right());
         }
 
@@ -197,7 +221,7 @@ namespace WarAndPeace
         }
 
         //Check if tree empty (when root doesnt exist)
-        private bool IsEmpty()
+        private bool RootIsEmpty()
         {
             return Root == null;
         }
@@ -205,14 +229,14 @@ namespace WarAndPeace
         // First rule: No red node should have a red child
         private void AssertRedRule()
         {
-            if (!IsEmpty()) 
+            if (!RootIsEmpty()) 
             {
                 var left = Left();
                 var right = Right();
                 if (Root.Color == Color.RED)
                 {
-                    Debug.Assert(left.IsEmpty() || left.Root.Color == Color.BLACK);
-                    Debug.Assert(right.IsEmpty() || right.Root.Color == Color.BLACK);
+                    Debug.Assert(left.RootIsEmpty() || left.Root.Color == Color.BLACK);
+                    Debug.Assert(right.RootIsEmpty() || right.Root.Color == Color.BLACK);
                 }
                 left.AssertRedRule(); //Assert for all subtrees that no two adjacent red nodes
                 right.AssertRedRule();
@@ -222,9 +246,9 @@ namespace WarAndPeace
         //Second rule: Amount of black nodes from each (empty) leaf to root should be the same
         public int CountBlack()
         {
-            if (IsEmpty())
+            if (RootIsEmpty())
             {
-                return 0;
+                return 0; //sollte das nicht 1 sein?
             }
             int leftCount = Left().CountBlack();
             int rightCount = Right().CountBlack();
