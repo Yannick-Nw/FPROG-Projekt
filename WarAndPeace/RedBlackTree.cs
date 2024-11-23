@@ -47,7 +47,7 @@ namespace WarAndPeace
             }
         }
 
-        /*
+        
         public List<string> InOrderTraversal()
         {
             var result = new List<string>();
@@ -68,7 +68,7 @@ namespace WarAndPeace
             // Traverse right subtree
             InOrderTraversalHelper(node.Right, result);
         }
-        */
+        
 
 
     private RedBlackTree(RedBlackTreeNode root)
