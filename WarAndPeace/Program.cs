@@ -4,9 +4,13 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace WarAndPeace
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
+        {
+            ProcessFile();
+        }
+        public static void ProcessFile()
         {
             string text = ReadWholeFile("war_and_peace.txt"); //Read text of file
 

@@ -217,7 +217,7 @@ namespace WarAndPeace
         {
             if (RootIsEmpty())
             {
-                return 0; //sollte das nicht 1 sein?
+                return 1;
             }
             int leftCount = Left().CountBlack();
             int rightCount = Right().CountBlack();
