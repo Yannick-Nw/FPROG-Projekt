@@ -10,9 +10,9 @@ namespace WarAndPeace
         {
             ProcessFile();
         }
-        public static void ProcessFile()
+        public static void ProcessFile(string input = "war_and_peace.txt")
         {
-            string text = ReadWholeFile("war_and_peace.txt"); //Read text of file
+            string text = ReadWholeFile(input); //Read text of file
 
             var stopwatchTokenizer = Stopwatch.StartNew();
             List<string> words = Tokenizer.Tokenize(text).ToList();

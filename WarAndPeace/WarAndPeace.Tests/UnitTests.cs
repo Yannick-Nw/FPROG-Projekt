@@ -110,10 +110,11 @@ namespace WarAndPeace.Tests
         [Test]
         public void ProcessFile_GeneratesCorrectOutput()
         {
+            string fileName = "war_and_peace_test.txt";
             string inputText = "War, peace, harmony, and tranquility!";
-            File.WriteAllText("war_and_peace_test.txt", inputText);
+            File.WriteAllText(fileName, inputText);
 
-            Program.ProcessFile();
+            Program.ProcessFile(fileName);
 
             var sortedWords = File.ReadAllLines("../../../output.txt").ToList();
             var expected = new List<string> { "and", "harmony", "peace", "tranquility", "war" };
