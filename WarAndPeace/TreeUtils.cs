@@ -20,7 +20,7 @@ namespace WarAndPeace
                 return trees[0];
 
             // Reduce the list by merging pairs in parallel
-            var mergedTrees = trees
+            List<RedBlackTree> mergedTrees = trees
                 .AsParallel()
                 .AsOrdered()
                 .Select((tree, index) => new { tree, index })

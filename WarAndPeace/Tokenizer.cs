@@ -15,16 +15,15 @@ public class Tokenizer
         string lowerText = text.ToLowerInvariant();
 
         // Define a regular expression pattern to match words
-        string pattern = @"\b[a-zA-Z]+(?:['-][a-zA-Z]+)*\b";
+        const string pattern = @"\b[a-zA-Z]+(?:['-][a-zA-Z]+)*\b";
 
         // Use Regex to find matches
-        var matches = Regex.Matches(lowerText, pattern);
+        MatchCollection matches = Regex.Matches(lowerText, pattern);
 
         // Use LINQ to select the matched words
-        var words = matches.Cast<Match>()
+        IEnumerable<string> words = matches.Cast<Match>()
             .Select(match => match.Value);
 
         return words;
-
     }
 }
