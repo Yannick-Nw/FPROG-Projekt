@@ -34,5 +34,5 @@ This project processes text files, specifically "War and Peace", to tokenize wor
 
 - **C# and .NET**
 - **NUnit for testing**
-- Parallel LINQ (PLINQ) for concurrency
+- **Parallel LINQ (PLINQ) for concurrency**
 
