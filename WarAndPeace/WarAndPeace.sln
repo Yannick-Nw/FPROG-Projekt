@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarAndPeace", "WarAndPeace.csproj", "{22CDE7F9-7FD7-4203-8EC1-4E433F62DDD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarAndPeace", "WarAndPeace\WarAndPeace.csproj", "{22CDE7F9-7FD7-4203-8EC1-4E433F62DDD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarAndPeace.Tests", "WarAndPeace.Tests\WarAndPeace.Tests.csproj", "{63CCABCA-EA50-412C-8E26-4A6FE7DCAD94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{22CDE7F9-7FD7-4203-8EC1-4E433F62DDD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22CDE7F9-7FD7-4203-8EC1-4E433F62DDD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22CDE7F9-7FD7-4203-8EC1-4E433F62DDD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63CCABCA-EA50-412C-8E26-4A6FE7DCAD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63CCABCA-EA50-412C-8E26-4A6FE7DCAD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63CCABCA-EA50-412C-8E26-4A6FE7DCAD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63CCABCA-EA50-412C-8E26-4A6FE7DCAD94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
